@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tres tazas, una física — Por Prof. Hayzar</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a0f08;
+    --paper: #fdf8f0;
+    --cream: #f5edd8;
+    --accent: #c0392b;
+    --gold: #c4844a;
+    --teal: #1a7a6e;
+    --mid: #6b5e4e;
+    --light-mid: #b8a898;
+    --rail: #2d1a0e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--rail);
+    color: var(--paper);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Steam particles */
+  .steam-wrap {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+  }
+  .steam-particle {
+    position: absolute;
+    bottom: 30%;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    animation: rise linear infinite;
+  }
+  .steam-particle:nth-child(1)  { left: 28%; width: 18px; height: 18px; animation-duration: 5s; animation-delay: 0s; }
+  .steam-particle:nth-child(2)  { left: 31%; width: 12px; height: 12px; animation-duration: 7s; animation-delay: 1s; }
+  .steam-particle:nth-child(3)  { left: 50%; width: 22px; height: 22px; animation-duration: 6s; animation-delay: 0.5s; }
+  .steam-particle:nth-child(4)  { left: 53%; width: 10px; height: 10px; animation-duration: 8s; animation-delay: 2s; }
+  .steam-particle:nth-child(5)  { left: 70%; width: 16px; height: 16px; animation-duration: 5.5s; animation-delay: 1.5s; }
+  @keyframes rise {
+    0%   { transform: translateY(0) scale(1); opacity: 0; }
+    15%  { opacity: 1; }
+    80%  { opacity: 0.3; }
+    100% { transform: translateY(-320px) scale(2.5); opacity: 0; }
+  }
+
+  /* Animated SVG hero scene */
+  .hero-svg {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    width: 100%;
+    height: 62%;
+  }
+
+  .cup-group { animation: float-cup 4s ease-in-out infinite; }
+  @keyframes float-cup {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  /* Animated energy bars */
+  .energy-bar {
+    position: absolute;
+    right: 40px;
+    top: 30px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .bar-label { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 2px; }
+  .bar-track { width: 120px; height: 8px; background: rgba(255,255,255,.15); border-radius: 4px; overflow: hidden; }
+  .bar-fill   { height: 100%; border-radius: 4px; }
+  .bar-q  { background: var(--accent); animation: pulse-q 6s ease-in-out infinite alternate; }
+  .bar-t  { background: var(--gold);   animation: pulse-t 6s ease-in-out infinite alternate; }
+  @keyframes pulse-q {
+    0%,100% { width: 80%; } 50% { width: 20%; }
+  }
+  @keyframes pulse-t {
+    0%,100% { width: 30%; } 50% { width: 95%; }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 60px 8vw 70px;
+    max-width: 860px;
+  }
+
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 28px;
+    color: #fff;
+  }
+  h1 em { color: var(--gold); font-style: italic; }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--light-mid);
+    max-width: 580px;
+    margin-bottom: 40px;
+  }
+
+  .byline {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 18px; color: #fff;
+  }
+  .byline-text { font-size: .9rem; color: var(--light-mid); font-family: 'Space Mono', monospace; }
+  .byline-text strong { color: #fff; display: block; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--light-mid);
+    font-size: .75rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 2px;
+    animation: bob 2s ease-in-out infinite;
+  }
+  .scroll-hint::after { content: '↓'; font-size: 1.4rem; color: var(--gold); }
+  @keyframes bob {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50%      { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ── ARTICLE BODY ── */
+  .article {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 70px 24px 100px;
+  }
+
+  .drop-cap::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 5.2em;
+    font-weight: 900;
+    float: left;
+    line-height: .82;
+    margin: 6px 14px 0 0;
+    color: var(--accent);
+  }
+
+  p { margin-bottom: 1.4em; }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--rail);
+    margin: 2.8em 0 .8em;
+    line-height: 1.2;
+  }
+  h2::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--gold);
+    margin-bottom: 14px;
+    border-radius: 2px;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--teal);
+    margin: 2em 0 .6em;
+  }
+
+  /* ── DIALOGUE ── */
+  .dialogue {
+    margin: 2em 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .speech { display: flex; gap: 14px; align-items: flex-start; }
+  .speech.right { flex-direction: row-reverse; }
+
+  .speech-avatar {
+    flex-shrink: 0;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 16px; color: #fff;
+    box-shadow: 0 3px 10px rgba(0,0,0,.2);
+  }
+  /* Rodrigo = historian/communicator → deep teal */
+  .av-rodrigo { background: linear-gradient(135deg, #1a5c50, #0d3d35); }
+  /* Marcela = didactics researcher → warm indigo */
+  .av-marcela { background: linear-gradient(135deg, #3b2c7a, #221a55); }
+  /* Tomás = lab teacher → earthy sienna */
+  .av-tomas   { background: linear-gradient(135deg, #7a3410, #4d1f08); }
+
+  .bubble {
+    padding: 14px 20px;
+    border-radius: 18px;
+    max-width: 85%;
+    font-size: .97rem;
+    line-height: 1.65;
+  }
+  .bubble-rodrigo { background: #e4f2f0; border: 1.5px solid #9fd4cc; color: #0d3d38; border-top-left-radius: 4px; }
+  .bubble-marcela { background: #edeaf7; border: 1.5px solid #b4aadf; color: #1a1040; border-top-left-radius: 4px; }
+  .bubble-tomas   { background: #fdf2e8; border: 1.5px solid #e8c99a; color: #3d1f08; border-top-left-radius: 4px; }
+  .speech.right .bubble { border-top-left-radius: 18px; border-top-right-radius: 4px; }
+
+  .speaker-name {
+    font-family: 'Space Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .name-rodrigo { color: var(--teal); }
+  .name-marcela { color: #3b2c7a; }
+  .name-tomas   { color: #8B4513; }
+
+  em.thought { font-style: italic; color: var(--mid); font-size: .92rem; }
+
+  /* ── EQUATION BOXES ── */
+  .eq-box {
+    background: var(--cream);
+    border-left: 4px solid var(--gold);
+    padding: 20px 28px;
+    margin: 2em 0;
+    border-radius: 0 12px 12px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: .95rem;
+  }
+  .eq-box .eq-title {
+    font-size: .7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .eq-big { font-size: 1.4rem; color: var(--rail); font-weight: 700; margin: 6px 0; }
+  .eq-note {
+    font-size: .78rem; color: var(--mid); margin-top: 8px;
+    font-family: 'Source Serif 4', serif; font-style: italic;
+  }
+
+  /* ── INSIGHT ── */
+  .insight {
+    background: var(--rail);
+    color: var(--paper);
+    padding: 28px 32px;
+    border-radius: 16px;
+    margin: 2.5em 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .insight::before {
+    content: '💡';
+    position: absolute;
+    top: 16px; right: 20px;
+    font-size: 2.5rem;
+    opacity: .3;
+  }
+  .insight p { margin: 0; color: var(--cream); }
+  .insight strong { color: var(--gold); }
+
+  /* ── FUN BOX ── */
+  .fun-box {
+    border: 2px dashed var(--accent);
+    padding: 20px 26px;
+    border-radius: 14px;
+    margin: 2em 0;
+    background: #fff8f7;
+  }
+  .fun-box .fun-title {
+    font-family: 'Space Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .fun-box p { margin: 0; font-size: .95rem; color: #5a1a10; }
+
+  /* ── HISTORICAL BOX ── */
+  .hist-box {
+    background: #f0f7ff;
+    border-left: 4px solid #2c3e80;
+    padding: 20px 28px;
+    margin: 2em 0;
+    border-radius: 0 12px 12px 0;
+  }
+  .hist-box .hist-title {
+    font-family: 'Space Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #2c3e80;
+    margin-bottom: 6px;
+  }
+  .hist-box .hist-year {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #2c3e80;
+    opacity: .25;
+    line-height: 1;
+    float: left;
+    margin-right: 14px;
+    margin-top: 4px;
+  }
+  .hist-box p { font-size: .95rem; font-style: italic; color: #1a1e40; margin: 0; }
+  .hist-box strong { font-style: normal; color: #2c3e80; }
+
+  /* ── DIAGRAM ── */
+  .diagram-wrap {
+    margin: 2.5em 0;
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 28px 20px 20px;
+    text-align: center;
+  }
+  .diagram-title {
+    font-family: 'Space Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 20px;
+  }
+  .diag-svg { width: 100%; max-width: 620px; }
+
+  /* ── TABLE ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+    font-size: .88rem;
+  }
+  .data-table th {
+    background: var(--rail);
+    color: var(--gold);
+    font-family: 'Space Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e0d5c5;
+    color: var(--ink);
+    vertical-align: top;
+  }
+  .data-table tr:nth-child(even) td { background: var(--cream); }
+  .data-table td strong { color: var(--rail); }
+
+  /* ── SEPARATOR ── */
+  .sep {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 3em 0;
+    color: var(--light-mid);
+  }
+  .sep::before, .sep::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--light-mid);
+  }
+  .sep span { font-size: 1.4rem; }
+
+  /* ── QUESTIONS ── */
+  .questions {
+    background: var(--rail);
+    color: var(--paper);
+    padding: 50px 8vw 60px;
+    margin-top: 60px;
+  }
+  .questions h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .questions h2::before { background: var(--accent); }
+  .questions > p { color: var(--light-mid); margin-bottom: 32px; font-size: .95rem; }
+  .q-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+  }
+  .q-card {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 14px;
+    padding: 22px;
+    transition: background .2s, transform .2s;
+    cursor: default;
+  }
+  .q-card:hover { background: rgba(255,255,255,.12); transform: translateY(-3px); }
+  .q-num {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .q-card p { color: var(--cream); font-size: .92rem; line-height: 1.6; margin: 0; }
+  .q-tag {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: .62rem;
+    letter-spacing: 2px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+  .tag-concepto  { background: #1a3a2e; color: #7de8c8; }
+  .tag-calculo   { background: #1a1e40; color: #9ba8f0; }
+  .tag-contexto  { background: #3d1508; color: #f0a890; }
+  .tag-reflexion { background: #3a2e08; color: #f0d070; }
+  .tag-experimental { background: #1a2e3a; color: #80d0f0; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0f0a05;
+    padding: 40px 8vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    color: var(--mid);
+    font-family: 'Space Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: 1px;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    body { font-size: 17px; }
+    .article { padding: 50px 18px 70px; }
+    .bubble { max-width: 93%; }
+    .eq-big { font-size: 1.1rem; }
+    .energy-bar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ HERO ════════════ -->
+<header class="hero">
+
+  <!-- Steam particles -->
+  <div class="steam-wrap">
+    <div class="steam-particle"></div>
+    <div class="steam-particle"></div>
+    <div class="steam-particle"></div>
+    <div class="steam-particle"></div>
+    <div class="steam-particle"></div>
+  </div>
+
+  <!-- SVG scene: three cups on a table -->
+  <svg class="hero-svg" viewBox="0 0 1000 280" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Table surface -->
+    <rect x="80" y="210" width="840" height="16" rx="4" fill="#5c3317" opacity=".7"/>
+    <rect x="100" y="226" width="800" height="8" rx="2" fill="#3d1f0e" opacity=".5"/>
+
+    <!-- ─ Prensa Francesa (Rodrigo) ─ -->
+    <g class="cup-group" style="animation-delay:0s">
+      <!-- Jar body -->
+      <rect x="190" y="130" width="60" height="78" rx="6" fill="rgba(255,255,255,0.08)" stroke="#c4844a" stroke-width="1.5"/>
+      <!-- Handle -->
+      <path d="M250,148 Q276,148 276,168 Q276,188 250,188" stroke="#c4844a" stroke-width="2" fill="none"/>
+      <!-- Plunger rod -->
+      <line x1="220" y1="100" x2="220" y2="155" stroke="#c4844a" stroke-width="2.5"/>
+      <rect x="196" y="152" width="48" height="6" rx="2" fill="#c4844a" opacity=".6"/>
+      <!-- Coffee liquid -->
+      <rect x="193" y="175" width="54" height="30" rx="3" fill="#5c3317" opacity=".7"/>
+      <!-- Top knob -->
+      <circle cx="220" cy="98" r="7" fill="#c4844a" opacity=".8"/>
+      <!-- Label -->
+      <text x="220" y="230" text-anchor="middle" font-family="monospace" font-size="10" fill="#c4844a" opacity=".8" letter-spacing="1">PRENSA</text>
+      <!-- Steam lines -->
+      <path d="M210,128 Q207,115 212,105" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M222,126 Q219,110 224,98" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M234,128 Q231,114 236,104" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <!-- ─ Cafetera Italiana (Marcela) ─ -->
+    <g class="cup-group" style="animation-delay:0.7s">
+      <!-- Bottom chamber -->
+      <path d="M462,208 L470,155 Q480,148 500,148 Q520,148 530,155 L538,208 Z" fill="rgba(200,200,200,0.15)" stroke="#c4844a" stroke-width="1.5"/>
+      <!-- Waist band -->
+      <rect x="468" y="152" width="64" height="10" rx="2" fill="#c4844a" opacity=".5"/>
+      <!-- Top chamber -->
+      <path d="M470,152 L475,110 Q485,100 500,98 Q515,100 525,110 L530,152 Z" fill="rgba(255,255,255,0.07)" stroke="#c4844a" stroke-width="1.5"/>
+      <!-- Spout -->
+      <path d="M525,118 Q548,108 552,100" stroke="#c4844a" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Handle -->
+      <path d="M462,175 Q438,175 438,195 Q438,210 462,210" stroke="#c4844a" stroke-width="2.5" fill="none"/>
+      <!-- Coffee in bottom -->
+      <ellipse cx="500" cy="196" rx="30" ry="8" fill="#5c3317" opacity=".6"/>
+      <!-- Label -->
+      <text x="500" y="230" text-anchor="middle" font-family="monospace" font-size="10" fill="#c4844a" opacity=".8" letter-spacing="1">ITALIANA</text>
+      <!-- Steam -->
+      <path d="M492,97 Q489,82 494,70" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M504,96 Q501,80 506,68" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <!-- ─ V60 (Tomás) ─ -->
+    <g class="cup-group" style="animation-delay:1.4s">
+      <!-- Stand legs -->
+      <line x1="720" y1="208" x2="710" y2="240" stroke="#c4844a" stroke-width="2" opacity=".5"/>
+      <line x1="740" y1="208" x2="750" y2="240" stroke="#c4844a" stroke-width="2" opacity=".5"/>
+      <line x1="730" y1="210" x2="730" y2="240" stroke="#c4844a" stroke-width="2" opacity=".5"/>
+      <!-- Cup below -->
+      <path d="M706,242 L714,210 L746,210 L754,242 Z" fill="rgba(255,255,255,0.08)" stroke="#c4844a" stroke-width="1.5"/>
+      <!-- V60 dripper cone -->
+      <path d="M708,140 L730,210 L752,140 Z" fill="rgba(200,200,200,0.1)" stroke="#c4844a" stroke-width="1.5"/>
+      <!-- Ribs on cone -->
+      <line x1="718" y1="145" x2="728" y2="200" stroke="#c4844a" stroke-width="0.8" opacity=".4"/>
+      <line x1="730" y1="143" x2="730" y2="202" stroke="#c4844a" stroke-width="0.8" opacity=".4"/>
+      <line x1="742" y1="145" x2="732" y2="200" stroke="#c4844a" stroke-width="0.8" opacity=".4"/>
+      <!-- Filter lip -->
+      <path d="M706,140 Q730,132 754,140" stroke="#c4844a" stroke-width="2" fill="none"/>
+      <!-- Coffee bed -->
+      <ellipse cx="730" cy="190" rx="16" ry="5" fill="#5c3317" opacity=".6"/>
+      <!-- Pour kettle spout suggestion -->
+      <path d="M690,110 Q710,120 716,140" stroke="#9e8070" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+      <!-- Label -->
+      <text x="730" y="260" text-anchor="middle" font-family="monospace" font-size="10" fill="#c4844a" opacity=".8" letter-spacing="1">V60</text>
+      <!-- Steam -->
+      <path d="M723,130 Q720,115 725,103" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M735,128 Q732,112 737,100" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <!-- Heat flow arrows between cups -->
+    <path d="M320,175 Q380,155 440,165" stroke="#c0392b" stroke-width="1.5" fill="none" stroke-dasharray="5,4" opacity=".5" marker-end="url(#arr2)"/>
+    <path d="M560,165 Q620,150 680,160" stroke="#c0392b" stroke-width="1.5" fill="none" stroke-dasharray="5,4" opacity=".5" marker-end="url(#arr2)"/>
+    <text x="365" y="148" font-size="9" fill="#c0392b" font-family="monospace" opacity=".7">Q →</text>
+    <text x="605" y="143" font-size="9" fill="#c0392b" font-family="monospace" opacity=".7">Q →</text>
+    <defs>
+      <marker id="arr2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#c0392b" opacity=".6"/>
+      </marker>
+    </defs>
+  </svg>
+
+  <!-- Live energy bars -->
+  <div class="energy-bar">
+    <div class="bar-label">Q — CALOR</div>
+    <div class="bar-track"><div class="bar-fill bar-q"></div></div>
+    <div class="bar-label">T — TEMPERATURA</div>
+    <div class="bar-track"><div class="bar-fill bar-t"></div></div>
+  </div>
+
+  <div class="hero-content">
+    <span class="tag">☕ Física en la sala de docentes · Calor & Termodinámica</span>
+    <h1>Tres tazas,<br>tres métodos,<br><em>una física</em></h1>
+    <p class="hero-sub">Tres profesores, tres formas de preparar café y la termodinámica entera esperando en cada taza. Sin tablero, sin diapositivas.</p>
+    <div class="byline">
+      <div class="avatar">H</div>
+      <div class="byline-text">
+        <strong>Prof. Hayzar · Física & Ciencias Naturales</strong>
+        medium.com · github.com/fisicohayzar
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">SIGUE LEYENDO</div>
+</header>
+
+<!-- ════════════ ARTICLE ════════════ -->
+<article class="article">
+
+<figure style="margin:2em 0; border-radius:16px; overflow:hidden;">
+  <img src="Coffee-1.png" alt="Tres estudiantes subiendo la primera colina de la montaña rusa" style="width:100%; display:block;">
+  <figcaption style="font-family:'Space Mono',monospace; font-size:.72rem; color:#6b5e4e; padding:10px 14px; background:#f5edd8; letter-spacing:1px;">
+    Métodos de preparación de café.
+  </figcaption>
+</figure>
+
+
+  <p class="drop-cap">Era martes. Sala de profesores. 6:15 p.m. Rodrigo llegó primero, puso agua a calentar y sacó su prensa francesa y un paquete de café de origen colombiano. Marcela entró después con su cafetera italiana bajo el brazo —la misma que lleva cinco años viajando en su maletín de docente. Tomás cerró la puerta, acomodó su V60 sobre la mesa y conectó su balanza de precisión con la parsimonia de quien calibra un interferómetro. Nadie lo planeó. Pero lo que siguió fue, probablemente, la mejor clase de termodinámica del semestre.</p>
+
+  <div class="dialogue">
+    <div class="speech right">
+      <div class="speech-avatar av-rodrigo">R</div>
+      <div class="bubble bubble-rodrigo">
+        <div class="speaker-name name-rodrigo">Rodrigo — divulgador e historiador de la física</div>
+        ¿Saben qué tienen en común estos tres aparatos? Todos desafían la misma pregunta que torturó a los físicos durante doscientos años: ¿qué es exactamente el calor?
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar av-tomas">T</div>
+      <div class="bubble bubble-tomas">
+        <div class="speaker-name name-tomas">Tomás — docente de laboratorio</div>
+        <em class="thought">*midiendo el agua en la balanza*</em> Lo que yo sé es que si el agua no está a 93°C, el café no extrae bien. El resto es literatura.
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar av-marcela">M</div>
+      <div class="bubble bubble-marcela">
+        <div class="speaker-name name-marcela">Marcela — investigadora en didáctica de la física</div>
+        Los dos tienen razón. La pregunta filosófica y la medida experimental son la misma cosa vista desde lados distintos. Eso es precisamente lo que no le enseñamos bien a los estudiantes.
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"><span>☕</span></div>
+
+  <h2>Acto I: El fantasma del calórico y la prensa francesa</h2>
+
+<figure style="margin:2em 0; border-radius:16px; overflow:hidden;">
+  <img src="Coffee-3.png" alt="Tres estudiantes subiendo la primera colina de la montaña rusa" style="width:100%; display:block;">
+  <figcaption style="font-family:'Space Mono',monospace; font-size:.72rem; color:#6b5e4e; padding:10px 14px; background:#f5edd8; letter-spacing:1px;">
+    La prensa francesa.
+  </figcaption>
+</figure>
+
+  <p>Rodrigo vertió agua a 94°C sobre el café molido grueso. Cuatro minutos de infusión. Mientras esperaba con la disciplina de un físico experimental, atacó con historia:</p>
+
+  <div class="dialogue">
+    <div class="speech right">
+      <div class="speech-avatar av-rodrigo">R</div>
+      <div class="bubble bubble-rodrigo">
+        <div class="speaker-name name-rodrigo">Rodrigo</div>
+        Durante casi cien años, los físicos creyeron que el calor era una sustancia. La llamaban <em>calórico</em>: un fluido invisible, sin masa, que fluía de los cuerpos calientes a los fríos. Lavoisier —el mismo de la conservación de la masa— la incluyó en su tabla de elementos en 1789.
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar av-tomas">T</div>
+      <div class="bubble bubble-tomas">
+        <div class="speaker-name name-tomas">Tomás</div>
+        ¿Lavoisier? ¿El de la Revolución Francesa y la guillotina?
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar av-rodrigo">R</div>
+      <div class="bubble bubble-rodrigo">
+        <div class="speaker-name name-rodrigo">Rodrigo</div>
+        El mismo. Y la ironía es que el calórico sobrevivió a su creador. Hasta que alguien taladró un cañón y arruinó la teoría para siempre.
+      </div>
+    </div>
+  </div>
+
+  <div class="hist-box">
+    <div class="hist-title">📜 Dato histórico</div>
+    <span class="hist-year">1798</span>
+    <p><strong>El Conde Rumford y el taladro que mató al calórico.</strong> Benjamin Thompson, Conde Rumford, supervisaba la fabricación de cañones en Múnich cuando notó algo perturbador: la fricción del taladro producía calor de forma aparentemente inagotable. Si el calórico fuera una sustancia finita contenida en el metal, eventualmente se agotaría. Pero no se agotaba. Su conclusión fue inevitable: <strong>el calor no es una sustancia. Es movimiento.</strong> Medio siglo después, James Prescott Joule lo confirmaría con experimentos de palas girando en agua.</p>
+  </div>
+
+<figure style="margin:2em 0; border-radius:16px; overflow:hidden;">
+  <img src="Coffee-2.png" alt="Tres estudiantes subiendo la primera colina de la montaña rusa" style="width:100%; display:block;">
+  <figcaption style="font-family:'Space Mono',monospace; font-size:.72rem; color:#6b5e4e; padding:10px 14px; background:#f5edd8; letter-spacing:1px;">
+    El Conde Rumford y el calórico.
+  </figcaption>
+</figure>
+
+  <p>Rodrigo bajó el émbolo de la prensa francesa con parsimonia. El café —ahora completamente infusionado— resistía suavemente la presión. Sirvió la primera taza.</p>
+
+  <div class="dialogue">
+    <div class="speech right">
+      <div class="speech-avatar av-rodrigo">R</div>
+      <div class="bubble bubble-rodrigo">
+        <div class="speaker-name name-rodrigo">Rodrigo</div>
+        Lo que acaba de ocurrir aquí es transferencia de calor por conducción y convección. El agua caliente cedió energía al café molido. No un fluido misterioso: energía cinética molecular pasando de las moléculas más agitadas del agua a las moléculas del café.
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar av-marcela">M</div>
+      <div class="bubble bubble-marcela">
+        <div class="speaker-name name-marcela">Marcela</div>
+        Y ahí está el primer gran error conceptual de los estudiantes: confunden calor con temperatura. El agua tiene una <em>temperatura</em> de 94°C. Lo que le transfiere al café es <em>calor</em>. No son lo mismo.
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-box">
+    <div class="eq-title">🌡️ Calor vs. Temperatura — La distinción fundamental</div>
+    <div class="eq-big">Q = m · c · ΔT</div>
+    <div class="eq-note">
+      <strong>Temperatura (T):</strong> medida del estado de agitación promedio de las partículas. Propiedad del sistema. Se mide en K, °C o °F.<br>
+      <strong>Calor (Q):</strong> energía en tránsito entre sistemas a diferente temperatura. No "está" en un cuerpo: fluye entre ellos.<br>
+      m: masa [kg] | c: calor específico [J/(kg·°C)] | ΔT: variación de temperatura [°C]
+    </div>
+  </div>
+
+  <div class="insight">
+    <p><strong>💡 Para recordar:</strong> Preguntar "¿cuánto calor tiene el café?" es físicamente incorrecto. El café tiene temperatura. El calor es lo que se transfiere cuando lo tocas. <strong>El calor es el proceso, no el estado.</strong> Como la corriente eléctrica: no "está" en el cable, fluye a través de él.</p>
+  </div>
+
+  <div class="sep"><span>☕</span></div>
+
+  <h2>Acto II: La cafetera italiana y las leyes que obedecen los gases</h2>
+
+<figure style="margin:2em 0; border-radius:16px; overflow:hidden;">
+  <img src="Coffee-4.png" alt="Tres estudiantes subiendo la primera colina de la montaña rusa" style="width:100%; display:block;">
+  <figcaption style="font-family:'Space Mono',monospace; font-size:.72rem; color:#6b5e4e; padding:10px 14px; background:#f5edd8; letter-spacing:1px;">
+    Cafetera italiana.
+  </figcaption>
+</figure>
+
+
+  <p>Marcela encendió su quemador de alcohol con la serenidad de quien ha repetido ese gesto mil veces. La moka —diseñada por Alfonso Bialetti en 1933— empezó a calentarse mientras ella señalaba su depósito inferior con el dedo índice.</p>
+
+  <div class="dialogue">
+    <div class="speech right">
+      <div class="speech-avatar av-marcela">M</div>
+      <div class="bubble bubble-marcela">
+        <div class="speaker-name name-marcela">Marcela</div>
+        Este depósito es un sistema termodinámico cerrado. El agua ocupa un volumen fijo. Al calentarse, la temperatura sube. ¿Qué le pasa a la presión?
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar av-tomas">T</div>
+      <div class="bubble bubble-tomas">
+        <div class="speaker-name name-tomas">Tomás</div>
+        Sube. Gay-Lussac. Si el volumen es constante, P y T son proporcionales. Lo veo en el manómetro del laboratorio todo el tiempo.
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar av-marcela">M</div>
+      <div class="bubble bubble-marcela">
+        <div class="speaker-name name-marcela">Marcela</div>
+        Exactamente. Y cuando la presión supera la resistencia del café compactado en el filtro, el agua asciende. Esta cafetera es un laboratorio completo de leyes de gases en 200 mililitros.
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar av-rodrigo">R</div>
+      <div class="bubble bubble-rodrigo">
+        <div class="speaker-name name-rodrigo">Rodrigo</div>
+        <em class="thought">*con admiración genuina*</em> Gay-Lussac también fue el primero en subir en globo aerostático con fines científicos. En 1804 llegó a 7.016 metros para medir temperatura y composición del aire. La misma ley que sube el café, sube los globos.
+      </div>
+    </div>
+  </div>
+
+<figure style="margin:2em 0; border-radius:16px; overflow:hidden;">
+  <img src="Coffee-5.png" alt="Tres estudiantes subiendo la primera colina de la montaña rusa" style="width:100%; display:block;">
+  <figcaption style="font-family:'Space Mono',monospace; font-size:.72rem; color:#6b5e4e; padding:10px 14px; background:#f5edd8; letter-spacing:1px;">
+    Relación entre la presión y la Temperatura: experimento de Gay-Lussac.
+  </figcaption>
+</figure>
+
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">⚗️ Las tres leyes de los gases en contexto</div>
+    <svg class="diag-svg" viewBox="0 0 620 180" xmlns="http://www.w3.org/2000/svg">
+      <!-- Three columns -->
+      <!-- Boyle -->
+      <rect x="20" y="20" width="170" height="130" rx="10" fill="#f0f7ff" stroke="#2c3e80" stroke-width="1.5"/>
+      <text x="105" y="45" text-anchor="middle" font-family="monospace" font-size="10" fill="#2c3e80" letter-spacing="1">BOYLE · 1662</text>
+      <text x="105" y="80" text-anchor="middle" font-family="monospace" font-size="16" fill="#2c3e80" font-weight="bold">P · V = cte</text>
+      <text x="105" y="100" text-anchor="middle" font-family="monospace" font-size="9" fill="#6b6b8e">T = constante</text>
+      <text x="105" y="118" text-anchor="middle" font-size="9" fill="#6b6b8e" font-family="sans-serif">Si comprimes → más presión</text>
+      <text x="105" y="136" text-anchor="middle" font-size="9" fill="#c4844a" font-family="sans-serif">Globo apretado</text>
+
+      <!-- Charles -->
+      <rect x="220" y="20" width="170" height="130" rx="10" fill="#f0fff5" stroke="#1a7a6e" stroke-width="1.5"/>
+      <text x="305" y="45" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a7a6e" letter-spacing="1">CHARLES · 1787</text>
+      <text x="305" y="80" text-anchor="middle" font-family="monospace" font-size="16" fill="#1a7a6e" font-weight="bold">V / T = cte</text>
+      <text x="305" y="100" text-anchor="middle" font-family="monospace" font-size="9" fill="#2e6e5a">P = constante</text>
+      <text x="305" y="118" text-anchor="middle" font-size="9" fill="#2e6e5a" font-family="sans-serif">Más caliente → más volumen</text>
+      <text x="305" y="136" text-anchor="middle" font-size="9" fill="#c4844a" font-family="sans-serif">Globo aerostático</text>
+
+      <!-- Gay-Lussac -->
+      <rect x="420" y="20" width="170" height="130" rx="10" fill="#fff5f0" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="505" y="45" text-anchor="middle" font-family="monospace" font-size="10" fill="#c0392b" letter-spacing="1">GAY-LUSSAC · 1808</text>
+      <text x="505" y="80" text-anchor="middle" font-family="monospace" font-size="16" fill="#c0392b" font-weight="bold">P / T = cte</text>
+      <text x="505" y="100" text-anchor="middle" font-family="monospace" font-size="9" fill="#8b2510">V = constante</text>
+      <text x="505" y="118" text-anchor="middle" font-size="9" fill="#8b2510" font-family="sans-serif">Más caliente → más presión</text>
+      <text x="505" y="136" text-anchor="middle" font-size="9" fill="#c4844a" font-family="sans-serif">Cafetera italiana</text>
+    </svg>
+  </div>
+
+  <div class="eq-box">
+    <div class="eq-title">🔬 La ecuación que unifica todo</div>
+    <div class="eq-big">P · V = n · R · T</div>
+    <div class="eq-note">
+      Ley del Gas Ideal: P = presión [Pa] | V = volumen [m³] | n = moles de gas | R = 8.314 J/(mol·K) | T = temperatura [<strong>siempre en Kelvin</strong>: K = °C + 273]<br>
+      <strong>⚠ Siempre Kelvin:</strong> a 0 K el movimiento molecular cesa y la presión sería cero. A 0°C = 273 K, el gas todavía tiene presión y volumen.
+    </div>
+  </div>
+
+  <p>La moka emitió su característico borboteo —ese sonido que cualquier italiano reconoce desde la infancia y que Marcela describe como <em>"la Ley de Gay-Lussac cantando"</em>. El café comenzó a ascender hacia la cámara superior. Tomás, fiel a sí mismo, sacó el termómetro.</p>
+
+  <div class="dialogue">
+    <div class="speech">
+      <div class="speech-avatar av-tomas">T</div>
+      <div class="bubble bubble-tomas">
+        <div class="speaker-name name-tomas">Tomás</div>
+        Si el agua empieza a 20°C y la presión inicial es 1 atm, ¿a qué temperatura ocurre la extracción si la presión llega a 1.5 atm?
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar av-marcela">M</div>
+      <div class="bubble bubble-marcela">
+        <div class="speaker-name name-marcela">Marcela</div>
+        Gay-Lussac: P₁/T₁ = P₂/T₂. Entonces T₂ = T₁ × P₂/P₁ = 293 K × 1.5 = 439.5 K = 166.5°C. Pero el agua ya está en vapor a esa temperatura a presión normal, así que lo que sube a través del café está cerca de 120–130°C. Por eso el café de la moka es más intenso.
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar av-rodrigo">R</div>
+      <div class="bubble bubble-rodrigo">
+        <div class="speaker-name name-rodrigo">Rodrigo</div>
+        <em class="thought">*asintiendo*</em> Termodinámica aplicada con criterio artístico. Bialetti no estudió física, pero su cafetera es un experimento de termodinámica perfecto.
+      </div>
+    </div>
+  </div>
+
+  <div class="fun-box">
+    <div class="fun-title">☕ Dato curioso de la moka</div>
+    <p>La cafetera italiana lleva el nombre de la ciudad yemení de <strong>Mokha</strong>, histórico puerto exportador de café desde el siglo XV. El mismo origen de la palabra "mocha". La física y la historia del comercio árabe, reunidas en la misma cafetera.</p>
+  </div>
+
+  <div class="sep"><span>☕</span></div>
+
+  <h2>Acto III: El V60 y los tres mecanismos de transferencia de calor</h2>
+
+<figure style="margin:2em 0; border-radius:16px; overflow:hidden;">
+  <img src="Coffee-6.png" alt="Tres estudiantes subiendo la primera colina de la montaña rusa" style="width:100%; display:block;">
+  <figcaption style="font-family:'Space Mono',monospace; font-size:.72rem; color:#6b5e4e; padding:10px 14px; background:#f5edd8; letter-spacing:1px;">
+    Método de filtrado con la V60.
+  </figcaption>
+</figure>
+
+
+  <p>Tomás vertió agua en espiral concéntrica sobre el café. Lento. Preciso. 93°C exactos según su termómetro de sonda. 200 gramos en dos minutos cuarenta segundos. Mientras la balanza marcaba el progreso con decimales, habló sin apartar los ojos del filtro.</p>
+
+  <div class="dialogue">
+    <div class="speech">
+      <div class="speech-avatar av-tomas">T</div>
+      <div class="bubble bubble-tomas">
+        <div class="speaker-name name-tomas">Tomás</div>
+        La extracción depende del gradiente de temperatura. Si el agua está por encima de 96°C, extrae compuestos amargos. Por debajo de 90°C, queda subextraído. Hay una ventana de apenas 6 grados donde la química es óptima.
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar av-rodrigo">R</div>
+      <div class="bubble bubble-rodrigo">
+        <div class="speaker-name name-rodrigo">Rodrigo</div>
+        Fourier diría que también depende del flujo de calor a través del lecho de café. Publicó su teoría analítica del calor en 1822 —el mismo trabajo que inventó el análisis de Fourier, base de toda la física moderna de señales— y estableció que la tasa de conducción es proporcional al gradiente de temperatura.
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar av-marcela">M</div>
+      <div class="bubble bubble-marcela">
+        <div class="speaker-name name-marcela">Marcela</div>
+        Y en ese filtro están ocurriendo los tres mecanismos al mismo tiempo. Eso es lo que los estudiantes no visualizan cuando leen el libro: conducción, convección y radiación son simultáneos, no alternativos.
+      </div>
+    </div>
+  </div>
+
+<figure style="margin:2em 0; border-radius:16px; overflow:hidden;">
+  <img src="Coffee-8.png" alt="Tres estudiantes subiendo la primera colina de la montaña rusa" style="width:100%; display:block;">
+  <figcaption style="font-family:'Space Mono',monospace; font-size:.72rem; color:#6b5e4e; padding:10px 14px; background:#f5edd8; letter-spacing:1px;">
+    Enfriamiento de una taza de café caliente.
+  </figcaption>
+</figure>
+
+<figure style="margin:2em 0; border-radius:16px; overflow:hidden;">
+  <img src="Coffee-7.png" alt="Tres estudiantes subiendo la primera colina de la montaña rusa" style="width:100%; display:block;">
+  <figcaption style="font-family:'Space Mono',monospace; font-size:.72rem; color:#6b5e4e; padding:10px 14px; background:#f5edd8; letter-spacing:1px;">
+    Procesos de transferencia de calor.
+  </figcaption>
+</figure>
+
+  <!-- Transferencia diagram -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">🌡️ Los tres mecanismos de transferencia de calor</div>
+    <svg class="diag-svg" viewBox="0 0 620 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Cup silhouette -->
+      <path d="M260,170 L280,80 L340,80 L360,170 Z" fill="rgba(92,51,23,0.15)" stroke="#c4844a" stroke-width="2"/>
+      <ellipse cx="310" cy="168" rx="52" ry="10" fill="rgba(92,51,23,0.2)"/>
+      <path d="M278,80 Q310,72 342,80" stroke="#c4844a" stroke-width="1.5" fill="none"/>
+      <ellipse cx="310" cy="130" rx="38" ry="10" fill="#5c3317" opacity=".5"/>
+
+
+
+      <!-- CONDUCTION arrows (left) -->
+      <g>
+        <path d="M120,130 L255,130" stroke="#2c3e80" stroke-width="2" stroke-dasharray="0" marker-end="url(#arrc)"/>
+        <text x="55" y="115" font-size="11" font-family="monospace" fill="#2c3e80" font-weight="bold">CONDUCCIÓN</text>
+        <text x="55" y="132" font-size="9" font-family="sans-serif" fill="#2c3e80">Molécula a molécula</text>
+        <text x="55" y="148" font-size="9" font-family="sans-serif" fill="#6b6b8e">como cadena humana</text>
+        <text x="55" y="164" font-size="9" font-family="sans-serif" fill="#6b6b8e">pasando cubetas</text>
+      </g>
+
+      <!-- CONVECTION arrows (top) -->
+      <g>
+        <path d="M295,78 Q295,50 310,40 Q325,50 325,78" stroke="#1a7a6e" stroke-width="2" fill="none" stroke-dasharray="0" marker-end="url(#arrv)"/>
+        <text x="250" y="25" font-size="11" font-family="monospace" fill="#1a7a6e" font-weight="bold" text-anchor="middle">CONVECCIÓN</text>
+        <text x="250" y="42" font-size="9" font-family="sans-serif" fill="#1a7a6e" text-anchor="middle">Corrientes del fluido</text>
+        <!-- Convection loops inside cup -->
+        <path d="M285,120 Q290,105 300,110 Q310,115 305,125" stroke="#1a7a6e" stroke-width="1" fill="none" opacity=".6"/>
+        <path d="M335,120 Q330,105 320,110 Q310,115 315,125" stroke="#1a7a6e" stroke-width="1" fill="none" opacity=".6"/>
+      </g>
+
+      <!-- RADIATION wavy arrows (right) -->
+      <g>
+        <path d="M365,130 Q380,125 395,130 Q410,135 425,130 Q440,125 455,130 L500,130" stroke="#c0392b" stroke-width="1.5" fill="none" marker-end="url(#arrr)"/>
+        <path d="M365,115 Q380,110 395,115 Q410,120 425,115 Q440,110 455,115 L500,115" stroke="#c0392b" stroke-width="1.5" fill="none" marker-end="url(#arrr)" opacity=".6"/>
+        <path d="M365,145 Q380,140 395,145 Q410,150 425,145 Q440,140 455,145 L500,145" stroke="#c0392b" stroke-width="1.5" fill="none" marker-end="url(#arrr)" opacity=".6"/>
+        <text x="510" y="108" font-size="11" font-family="monospace" fill="#c0392b" font-weight="bold">RADIACIÓN</text>
+        <text x="510" y="125" font-size="9" font-family="sans-serif" fill="#c0392b">Ondas infrarrojas</text>
+        <text x="510" y="141" font-size="9" font-family="sans-serif" fill="#8b2510">sin contacto</text>
+        <text x="510" y="157" font-size="9" font-family="sans-serif" fill="#8b2510">ni fluido</text>
+      </g>
+
+      <defs>
+        <marker id="arrc" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2c3e80"/></marker>
+        <marker id="arrv" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1a7a6e"/></marker>
+        <marker id="arrr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#c0392b"/></marker>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="eq-box">
+    <div class="eq-title">📐 Ley de Fourier — Conducción</div>
+    <div class="eq-big">Q/t = −k · A · (ΔT / Δx)</div>
+    <div class="eq-note">
+      La tasa de transferencia de calor es proporcional al área (A), a la conductividad térmica del material (k) e inversamente proporcional al espesor (Δx).<br>
+      <strong>Para la radiación — Ley de Stefan-Boltzmann:</strong> P = ε · σ · A · T⁴<br>
+      donde σ = 5.67 × 10⁻⁸ W/(m²·K⁴). Cualquier objeto por encima del cero absoluto irradia.
+    </div>
+  </div>
+
+  <div class="hist-box">
+    <div class="hist-title">📜 Dato histórico</div>
+    <span class="hist-year">1822</span>
+    <p><strong>Fourier y el análisis que lo cambió todo.</strong> Jean-Baptiste Joseph Fourier publicó su <em>Théorie analytique de la chaleur</em> sin saber que estaba inventando dos cosas a la vez: la teoría del calor por conducción <em>y</em> el análisis matemático que lleva su nombre —base de la física de ondas, la óptica, la señal de audio digital, las telecomunicaciones y el análisis sísmico. Todo eso, partiendo de una pregunta: ¿cómo se propaga el calor a través de un sólido?</p>
+  </div>
+
+  <div class="sep"><span>☕</span></div>
+
+  <h2>Acto IV: El equilibrio que nadie quiere, pero que siempre llega</h2>
+
+  <p>Las tres preparaciones estaban listas. Tres tazas sobre la mesa. Vapor ascendente. El salón olía a algo que ningún ambientador ha logrado replicar. Los tres sorbieron casi al mismo tiempo.</p>
+
+  <div class="dialogue">
+    <div class="speech">
+      <div class="speech-avatar av-tomas">T</div>
+      <div class="bubble bubble-tomas">
+        <div class="speaker-name name-tomas">Tomás</div>
+        Están perfectas ahora. En diez minutos ya no.
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar av-rodrigo">R</div>
+      <div class="bubble bubble-rodrigo">
+        <div class="speaker-name name-rodrigo">Rodrigo</div>
+        Newton lo describió en 1701: la tasa de enfriamiento es proporcional a la diferencia de temperatura con el entorno. dT/dt = −k(T − T_ambiente). Curva exponencial decreciente. El café pierde calor rápido al principio, luego cada vez más lento... hasta el equilibrio térmico.
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar av-marcela">M</div>
+      <div class="bubble bubble-marcela">
+        <div class="speaker-name name-marcela">Marcela</div>
+        La Ley Cero de la termodinámica. Si el café, la taza y el aire del salón están en equilibrio térmico entre sí, tienen la misma temperatura. Es la ley que hace posibles los termómetros y el concepto mismo de temperatura. <em>Y es la que me hace tomar el café ahora, no después.</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cooling curve diagram -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">📉 Ley de Enfriamiento de Newton — Curva del café</div>
+    <svg class="diag-svg" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Axes -->
+      <line x1="60" y1="170" x2="560" y2="170" stroke="#b8a898" stroke-width="1.5"/>
+      <line x1="60" y1="20"  x2="60"  y2="170" stroke="#b8a898" stroke-width="1.5"/>
+      <text x="570" y="174" font-size="10" fill="#b8a898" font-family="monospace">t (min)</text>
+      <text x="30" y="20" font-size="10" fill="#b8a898" font-family="monospace" transform="rotate(-90,38,90)">T (°C)</text>
+      <!-- Tick labels -->
+      <text x="57" y="185" font-size="9" fill="#b8a898" font-family="monospace">0</text>
+      <text x="147" y="185" font-size="9" fill="#b8a898" font-family="monospace">5</text>
+      <text x="240" y="185" font-size="9" fill="#b8a898" font-family="monospace">10</text>
+      <text x="335" y="185" font-size="9" fill="#b8a898" font-family="monospace">15</text>
+      <text x="430" y="185" font-size="9" fill="#b8a898" font-family="monospace">20</text>
+      <text x="44" y="175" font-size="8" fill="#b8a898" font-family="monospace">25</text>
+      <text x="44" y="110" font-size="8" fill="#b8a898" font-family="monospace">60</text>
+      <text x="44" y="60"  font-size="8" fill="#b8a898" font-family="monospace">85</text>
+      <text x="40" y="35"  font-size="8" fill="#b8a898" font-family="monospace">93</text>
+      <!-- Ambient temperature line -->
+      <line x1="60" y1="162" x2="560" y2="162" stroke="#1a7a6e" stroke-width="1" stroke-dasharray="5,4"/>
+      <text x="420" y="158" font-size="9" fill="#1a7a6e" font-family="monospace">T_ambiente ≈ 25°C</text>
+      <!-- Exponential cooling curve -->
+      <path d="M60,30 Q120,35 180,55 Q260,80 340,110 Q420,135 490,150 Q530,156 560,160"
+            stroke="#c4844a" stroke-width="3" fill="none"/>
+      <!-- Optimal drinking zone -->
+      <rect x="100" y="75" width="150" height="55" fill="#c4844a" opacity=".08" rx="4"/>
+      <text x="175" y="96" text-anchor="middle" font-size="9" fill="#c4844a" font-family="monospace">ZONA ÓPTIMA</text>
+      <text x="175" y="110" text-anchor="middle" font-size="9" fill="#c4844a" font-family="monospace">55°C – 70°C</text>
+      <!-- Start point -->
+      <circle cx="60" cy="30" r="5" fill="#c0392b"/>
+      <text x="68" y="26" font-size="9" fill="#c0392b" font-family="monospace">93°C</text>
+      <!-- Equilibrium arrow -->
+      <path d="M490,152 L490,162" stroke="#1a7a6e" stroke-width="1.5" marker-end="url(#arreq)"/>
+      <text x="445" y="148" font-size="8" fill="#1a7a6e" font-family="monospace">equilibrio →</text>
+      <defs>
+        <marker id="arreq" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1a7a6e"/></marker>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="eq-box">
+    <div class="eq-title">⏱ Ley de Enfriamiento de Newton</div>
+    <div class="eq-big">dT/dt = −k · (T − T₀)</div>
+    <div class="eq-note">
+      La tasa de cambio de temperatura es proporcional a la diferencia entre la temperatura del objeto (T) y la del entorno (T₀).<br>
+      <strong>Solución:</strong> T(t) = T₀ + (T_inicial − T₀) · e<sup>−kt</sup> — curva exponencial decreciente.<br>
+      Mide tu café cada 2 minutos: obtendrás esta curva. Calculando k, podrás predecir exactamente cuándo estará demasiado frío.
+    </div>
+  </div>
+
+  <div class="dialogue">
+    <div class="speech right">
+      <div class="speech-avatar av-rodrigo">R</div>
+      <div class="bubble bubble-rodrigo">
+        <div class="speaker-name name-rodrigo">Rodrigo</div>
+        Y la Segunda Ley de la termodinámica garantiza que esto solo ocurra en una dirección. El café frío no se calienta solo. El calor fluye espontáneamente del cuerpo caliente al frío. Nunca al revés.
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar av-tomas">T</div>
+      <div class="bubble bubble-tomas">
+        <div class="speaker-name name-tomas">Tomás</div>
+        <em class="thought">*terminando su V60 antes de que se enfríe*</em> Filosofía termodinámica muy interesante. Pero la conclusión práctica es que hay que tomárselo caliente.
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar av-marcela">M</div>
+      <div class="bubble bubble-marcela">
+        <div class="speaker-name name-marcela">Marcela</div>
+        <em class="thought">*cerrando su cuaderno de notas*</em> Eso. La única respuesta termodinámicamente responsable.
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"><span>☕</span></div>
+
+  <h2>Epílogo: La propuesta que nadie esperaba</h2>
+
+  <p>El jefe de departamento entró con doce minutos de retraso, encontró a los tres profesores en medio de una discusión sobre si el proceso de secado africano en camas elevadas produce una transferencia de calor más eficiente que el secado en patio, y preguntó, algo desconcertado, si alguien había revisado el formato institucional de planeación.</p>
+
+  <div class="dialogue">
+    <div class="speech right">
+      <div class="speech-avatar av-marcela">M</div>
+      <div class="bubble bubble-marcela">
+        <div class="speaker-name name-marcela">Marcela — entregando el borrador</div>
+        El contexto para las evaluaciones de termodinámica será el café. Cultivo, procesamiento, tueste, preparación, degustación. Un mundo completo, familiar, capaz de contener toda la física que necesitan aprender.
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar av-rodrigo">R</div>
+      <div class="bubble bubble-rodrigo">
+        <div class="speaker-name name-rodrigo">Rodrigo</div>
+        El café no es un ejemplo. Es un contexto. En un ejemplo, usas la física para explicar el café. En un contexto, usas el café para descubrir la física.
+      </div>
+    </div>
+  </div>
+
+<figure style="margin:2em 0; border-radius:16px; overflow:hidden;">
+  <img src="Coffee-9.png" alt="Tres estudiantes subiendo la primera colina de la montaña rusa" style="width:100%; display:block;">
+  <figcaption style="font-family:'Space Mono',monospace; font-size:.72rem; color:#6b5e4e; padding:10px 14px; background:#f5edd8; letter-spacing:1px;">
+    Leyes de la termodinámica.
+  </figcaption>
+</figure>
+
+  <div class="insight">
+    <p><strong>La lección de la reunión:</strong> La termodinámica no está esperando en el libro de texto. Está en cada taza que sirves, en cada borboteo de la moka, en cada espiral de vapor que asciende y se pierde en el aire del salón. <strong>Cuando entiendes el calor, el mundo deja de ser un escenario pasivo y se convierte en un laboratorio permanente.</strong> Lo único que necesitas saber es qué preguntas hacerle.</p>
+  </div>
+
+  <!-- Summary table -->
+  <h3>Resumen de conceptos clave</h3>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Concepto</th>
+        <th>Definición breve</th>
+        <th>En la taza</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Temperatura</strong></td><td>Energía cinética promedio de las partículas</td><td>Agua a 93°C en el V60</td></tr>
+      <tr><td><strong>Calor (Q)</strong></td><td>Energía en tránsito por diferencia de T</td><td>Q = mcΔT cedido al café</td></tr>
+      <tr><td><strong>Conducción</strong></td><td>Transferencia molécula a molécula</td><td>Cuchara metálica en la taza</td></tr>
+      <tr><td><strong>Convección</strong></td><td>Transferencia por movimiento del fluido</td><td>Corrientes en el café caliente</td></tr>
+      <tr><td><strong>Radiación</strong></td><td>Ondas electromagnéticas (IR)</td><td>Calor que sientes sin tocar</td></tr>
+      <tr><td><strong>Ley de Gay-Lussac</strong></td><td>P/T = cte (V fijo)</td><td>Presión en la moka</td></tr>
+      <tr><td><strong>Gas ideal</strong></td><td>PV = nRT</td><td>Vapor en el depósito de la moka</td></tr>
+      <tr><td><strong>Ley Cero</strong></td><td>Base del concepto de temperatura</td><td>Café en equilibrio con el salón</td></tr>
+      <tr><td><strong>1ª Ley</strong></td><td>Conservación de energía: ΔU = Q − W</td><td>El calor no desaparece, se transfiere</td></tr>
+      <tr><td><strong>2ª Ley</strong></td><td>El calor fluye de caliente a frío</td><td>El café frío no se calienta solo</td></tr>
+      <tr><td><strong>Ley de Newton</strong></td><td>Enfriamiento exponencial dT/dt = −k(T−T₀)</td><td>Curva de enfriamiento de la taza</td></tr>
+    </tbody>
+  </table>
+
+</article>
+
+<!-- ════════════ PREGUNTAS ════════════ -->
+<section class="questions">
+  <h2>¿Te quedaste con la física o solo con el café?</h2>
+  <p>Responde estas preguntas para verificar que la termodinámica se quedó en tu memoria, no solo el aroma.</p>
+  <div class="q-grid">
+
+    <div class="q-card">
+      <div class="q-num">PREGUNTA 01</div>
+      <p>Una taza de café de 250 g se enfría de 90°C a 60°C. ¿Cuánta energía en joules cedió al ambiente? Usa c = 4.18 J/(g·°C). ¿A qué equivale esa energía? (Pista: 1 Wh = 3600 J)</p>
+      <span class="q-tag tag-calculo">Cálculo</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">PREGUNTA 02</div>
+      <p>Marcela sostiene su taza con ambas manos pero la taza no se mueve. ¿Está haciendo trabajo físico? Explica usando la definición W = F · d · cos(θ) y compara con el caso del motor eléctrico de la moka.</p>
+      <span class="q-tag tag-concepto">Concepto</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">PREGUNTA 03</div>
+      <p>En el depósito de la cafetera italiana, el agua está inicialmente a 20°C y la presión es 1 atm. Si la presión sube a 1.8 atm, ¿a qué temperatura estará el agua? Usa la Ley de Gay-Lussac y trabaja en Kelvin.</p>
+      <span class="q-tag tag-calculo">Cálculo</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">PREGUNTA 04</div>
+      <p>Describe los tres mecanismos de transferencia de calor que ocurren cuando una taza de café caliente está sobre una mesa. ¿Cuál domina durante los primeros 2 minutos? ¿Por qué soplar sobre el café acelera el enfriamiento?</p>
+      <span class="q-tag tag-concepto">Concepto</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">PREGUNTA 05</div>
+      <p>Joseph Black observó en 1760 que el hielo a 0°C absorbía calor sin cambiar su temperatura. ¿Qué fenómeno describe? ¿Cómo aparece este mismo fenómeno durante el tueste del café verde? Relaciona con el concepto de calor latente.</p>
+      <span class="q-tag tag-reflexion">Reflexión</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">PREGUNTA 06</div>
+      <p>Diseña un experimento para medir la constante k de enfriamiento de una taza de café. ¿Qué variables controlarías? Grafica T vs. t y explica por qué la curva tiene forma exponencial y no lineal.</p>
+      <span class="q-tag tag-experimental">Experimental</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">PREGUNTA 07</div>
+      <p>Rodrigo dice que "el calor no es una sustancia sino movimiento". Explica cómo el experimento del Conde Rumford en 1798 refutó la teoría del calórico. ¿Qué observación específica fue la clave?</p>
+      <span class="q-tag tag-reflexion">Reflexión</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">PREGUNTA 08</div>
+      <p>La Segunda Ley dice que el café frío no se calienta solo. ¿Podría hacerlo alguna vez? ¿Bajo qué condiciones físicas sería posible una transferencia de calor en dirección opuesta a la espontánea? Argumenta tu posición.</p>
+      <span class="q-tag tag-reflexion">Reflexión</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer>
+  <div>
+    <div class="footer-brand">Física con propósito</div>
+    <div style="margin-top:6px">medium.com · github.com/fisicohayzar · Barranquilla, Colombia</div>
+  </div>
+  <div style="text-align:right">
+    <div>Calor · Temperatura · Termodinámica</div>
+    <div style="margin-top:4px; color:#5a4a3a">Física Clásica · Grados 10° y 11° · Universidad</div>
+  </div>
+</footer>
+
+</body>
+</html>
