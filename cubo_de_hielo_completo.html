@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lo que cuenta una gota antes de desaparecer</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap');
+    :root {
+      --ice-dark:#1b3a52; --ice-mid:#3a7ca5; --ice-light:#a8d8ea;
+      --ice-pale:#e2f3fb; --melt:#f5a623; --steam:#6ecac0;
+      --text:#1c2b38; --muted:#6a8499;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',sans-serif;background:linear-gradient(160deg,#e2f3fb,#f0f8ff);color:var(--text);padding:2rem 1rem 4rem;}
+    .page{max-width:820px;margin:0 auto;}
+    .hero{background:linear-gradient(140deg,#0d2235,#1b4f72,#2e86ab);border-radius:24px 24px 0 0;padding:3.5rem 3rem 2.5rem;color:#fff;position:relative;overflow:hidden;}
+    .hero::before{content:'🧊';font-size:9rem;position:absolute;right:1.5rem;top:-1rem;opacity:.1;transform:rotate(-12deg);}
+    .hero-tag{display:inline-block;border:1px solid rgba(168,216,234,.5);color:var(--ice-light);font-size:.7rem;letter-spacing:3px;text-transform:uppercase;padding:.3rem .9rem;border-radius:20px;margin-bottom:1.2rem;}
+    .hero h1{font-family:'Lora',serif;font-size:2.2rem;line-height:1.25;margin-bottom:.7rem;}
+    .hero h1 em{color:var(--ice-light);font-style:italic;}
+    .hero p{opacity:.7;font-size:.95rem;font-style:italic;max-width:480px;}
+    .card{background:#fff;padding:3rem;border-radius:0 0 24px 24px;box-shadow:0 12px 50px rgba(30,60,90,.1);}
+    .sec{font-family:'Lora',serif;font-size:1.25rem;color:var(--ice-dark);margin:2.5rem 0 1rem;padding-bottom:.6rem;border-bottom:2px solid var(--ice-pale);display:flex;align-items:center;gap:.7rem;}
+    .sub{font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:400;color:var(--muted);letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:.1rem;}
+    .badge{display:inline-block;background:var(--ice-dark);color:#fff;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;padding:.25rem .75rem;border-radius:20px;margin-bottom:.8rem;}
+    .voz{background:var(--ice-pale);border-left:4px solid var(--ice-mid);border-radius:0 14px 14px 0;padding:1.3rem 1.6rem;margin:1.4rem 0;font-family:'Lora',serif;font-style:italic;font-size:1.04rem;color:#1a3a52;line-height:1.88;}
+    .spk{font-family:'DM Sans',sans-serif;font-style:normal;font-size:.68rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--ice-mid);margin-bottom:.45rem;}
+    .ref{background:#fffbf0;border:1.5px dashed var(--melt);border-radius:10px;padding:1rem 1.4rem;margin:1.1rem 0;font-size:.93rem;color:#5a3e00;}
+    .ref::before{content:'🤔 Reflexiona: ';font-weight:600;color:var(--melt);}
+    .prose{font-size:.98rem;line-height:1.85;margin:.8rem 0;color:#2a3e50;}
+    .prose strong{color:var(--ice-dark);}
+    .eq{background:#f4faff;border:2px solid var(--ice-light);border-radius:13px;padding:1rem 1.4rem;margin:1.1rem 0;text-align:center;}
+    .formula{font-size:1.1rem;font-weight:700;color:var(--ice-dark);}
+    .enote{margin-top:.4rem;font-size:.8rem;color:var(--muted);}
+    .eresult{margin-top:.5rem;font-size:.97rem;color:var(--ice-mid);font-weight:600;}
+    .tbl{overflow-x:auto;margin:1.2rem 0;}
+    table{width:100%;border-collapse:collapse;font-size:.89rem;}
+    thead tr{background:var(--ice-dark);color:#fff;}
+    thead th{padding:.65rem .9rem;text-align:left;font-weight:500;}
+    tbody tr:nth-child(even){background:var(--ice-pale);}
+    tbody tr:nth-child(odd){background:#fff;}
+    tbody td{padding:.6rem .9rem;border-bottom:1px solid #deeef7;}
+    .hi{font-weight:700;color:var(--ice-mid);}
+    .flat{font-weight:700;color:var(--melt);}
+    .peak td{background:#fff8e1!important;font-weight:700;color:#7a4800;}
+    .gcard{background:#f4faff;border-radius:16px;padding:1.5rem;margin:1.5rem 0;}
+    .gcard h3{font-family:'Lora',serif;font-size:1rem;color:var(--ice-dark);text-align:center;margin-bottom:1rem;}
+    svg{width:100%;height:auto;}
+    .anom{background:linear-gradient(135deg,#eaf7f5,#d4eff5);border-radius:18px;padding:2rem 2.5rem;margin:2.5rem 0;border:1.5px solid #9dd6cc;}
+    .anom h2{font-family:'Lora',serif;font-size:1.25rem;color:#145a52;margin-bottom:.9rem;display:flex;align-items:center;gap:.6rem;}
+    .fact{background:rgba(255,255,255,.75);border-radius:10px;padding:.9rem 1.2rem;margin:.8rem 0;font-size:.92rem;color:#145a52;border-left:3px solid var(--steam);}
+    .lake{background:linear-gradient(180deg,#ddf0fb,#c8e8f5);border-radius:14px;padding:1.3rem;margin:1.5rem 0;}
+    .lake h3{font-family:'Lora',serif;font-size:.98rem;color:var(--ice-dark);text-align:center;margin-bottom:.8rem;}
+    .probs{background:#fffbf0;border-radius:18px;padding:2rem 2.5rem;margin:2.5rem 0;border:1.5px solid #f5d87a;}
+    .probs h2{font-family:'Lora',serif;font-size:1.25rem;color:#6b4400;margin-bottom:1.4rem;display:flex;align-items:center;gap:.6rem;}
+    .prob{display:flex;gap:.9rem;margin-bottom:1.1rem;padding:.95rem 1.1rem;background:#fff;border-radius:10px;border-left:4px solid var(--melt);font-size:.94rem;}
+    .pn{font-family:'Lora',serif;font-size:1.2rem;font-weight:700;color:var(--melt);min-width:26px;}
+    .ph{margin-top:.35rem;font-size:.8rem;color:var(--muted);font-style:italic;}
+    .final{background:linear-gradient(135deg,#0d2235,#1b4f72);color:#fff;border-radius:16px;padding:2rem 2.5rem;margin-top:2rem;}
+    .final h3{font-size:.92rem;opacity:.65;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:1px;}
+    .final p{font-size:.98rem;line-height:1.8;opacity:.92;}
+    hr.dv{border:none;border-top:1.5px solid var(--ice-pale);margin:2.5rem 0;}
+    footer{text-align:center;font-size:.75rem;color:var(--muted);margin-top:1.5rem;}
+  </style>
+</head>
+<body>
+<div class="page">
+
+<div class="hero">
+  <div class="hero-tag">Termodinámica · Narrativa · Divulgación</div>
+  <h1>Lo que cuenta <em>una gota</em><br>antes de desaparecer</h1>
+  <p>Un viaje narrado en primera persona por los estados de la materia, el calor y la entropía</p>
+</div>
+
+<div class="card">
+  <p class="prose">Esto no es solo física. Es el monólogo de alguien que nació sólido, aprendió a fluir y terminó volando. Léelo con calma. Deja que las palabras y las ecuaciones conversen entre sí.</p>
+
+  <!-- ACTO I -->
+  <div class="sec">🧊 <div><span class="sub">Acto I</span>Soy sólido — el reino del orden</div></div>
+  <span class="badge">Estado sólido · −20°C → 0°C</span>
+  <div class="voz"><div class="spk">La gota habla…</div>
+    Existo desde antes de que me vieras. Nací a −20°C, en el corazón oscuro del congelador. Ahí soy perfecto: cada una de mis moléculas tiene un lugar asignado, un vecino conocido, una distancia precisa. Somos millones dispuestos en una red cristalina, como soldados en formación. Nadie se mueve más de lo que debe. Vibro, sí, pero no me voy a ningún lado. Ese es mi estado más ordenado. Mi estado más <em>frío</em>.</div>
+  <p class="prose">En la física, ese orden tiene nombre: <strong>baja entropía</strong>. Un cristal de hielo es una de las estructuras más organizadas que puede tener el agua. Las moléculas de H₂O se unen por puentes de hidrógeno formando una red hexagonal — la misma razón por la que un copo de nieve tiene seis lados y nunca dos son iguales.</p>
+  <div class="ref">Si el orden requiere energía para mantenerse, ¿qué crees que pasa cuando el ambiente empieza a calentar al hielo? ¿La energía lo ordena más o lo desordena?</div>
+  <div class="eq">
+    <div class="formula">Q = m · c<sub>hielo</sub> · ΔT</div>
+    <div class="enote">c<sub>hielo</sub> = 2.09 J/g·°C &nbsp;|&nbsp; m = masa (g) &nbsp;|&nbsp; ΔT = variación de temperatura (°C)</div>
+    <div class="eresult">100 g, de −20°C a 0°C → Q = 100 × 2.09 × 20 = <strong>4 180 J</strong></div>
+  </div>
+  <div class="voz"><div class="spk">La gota reflexiona…</div>
+    Cuatro mil ciento ochenta julios para llegar a 0°C. Cada uno fue un empujón a mis moléculas. Llegué temblando. Y ahí… me detuve. El termómetro dejó de subir. Pero el calor seguía llegando. ¿A dónde iba toda esa energía?</div>
+  <div class="ref">El termómetro no cambia aunque el hielo siga recibiendo calor. ¿Eso significa que la energía desaparece? ¿O está haciendo otra cosa que no podemos medir con temperatura?</div>
+
+  <!-- ACTO II -->
+  <hr class="dv"/>
+  <div class="sec">💧 <div><span class="sub">Acto II</span>El silencio de la fusión — cambiar sin calentar</div></div>
+  <span class="badge">Cambio de fase · Fusión · 0°C</span>
+  <div class="voz"><div class="spk">La gota habla…</div>
+    A 0°C el calor seguía entrando pero yo no me calentaba. Estuve en ese instante eterno de 0°C, absorbiendo energía sin moverme del lugar. ¿Qué hacía con ella? La usaba para <em>romper</em>. Cada joule rompía un puente de hidrógeno entre mis moléculas. Uno a uno. Como desatarse de una cadena muy larga. Esto se llama <em>calor latente</em>: calor que existe pero que no ves en el termómetro. Calor escondido.</div>
+  <div class="eq">
+    <div class="formula">Q = m · L<sub>f</sub></div>
+    <div class="enote">L<sub>f</sub>(agua) = 334 J/g — el más alto de casi todos los líquidos comunes</div>
+    <div class="eresult">100 g a 0°C → Q = 100 × 334 = <strong>33 400 J</strong> para fundirse completamente</div>
+  </div>
+  <p class="prose">Para calentar el hielo de −20°C a 0°C se necesitan 4 180 J. Para <em>fundirlo</em> a 0°C: 33 400 J — <strong>ocho veces más</strong>. La naturaleza cobra caro el cambio de estado.</p>
+  <div class="voz"><div class="spk">La gota reflexiona…</div>
+    Cuando pones hielo en tu vaso, esos 33 000 julios que el hielo necesita para fundirse los toma del agua de tu vaso. Por eso la bebida se mantiene fría durante tanto tiempo. Yo me sacrifico en silencio. Sin que el termómetro lo cuente.</div>
+  <div class="ref">Un vaso con agua y hielo se mantiene a 0°C mientras quede hielo, aunque el ambiente esté a 30°C. ¿Por qué? ¿Qué pasaría si el calor latente del agua fuera 10 veces menor?</div>
+
+  <!-- ACTO III -->
+  <hr class="dv"/>
+  <div class="sec">🌊 <div><span class="sub">Acto III</span>Soy líquida — la libertad del movimiento</div></div>
+  <span class="badge">Estado líquido · 0°C → 100°C</span>
+  <div class="voz"><div class="spk">La gota habla…</div>
+    Al romper todos mis puentes sólidos, algo cambió. Ya no soy una red rígida. Ahora fluyo. Los puentes de hidrógeno todavía existen, pero se forman y rompen millones de veces por segundo. Soy flexible. Soy líquida. Y con cada joule que me llega, me muevo más rápido. El termómetro vuelve a subir.</div>
+  <div class="eq">
+    <div class="formula">Q = m · c<sub>agua</sub> · ΔT</div>
+    <div class="enote">c<sub>agua</sub> = 4.18 J/g·°C — uno de los calores específicos más altos de la naturaleza</div>
+    <div class="eresult">100 g de 0°C a 100°C → Q = 100 × 4.18 × 100 = <strong>41 800 J</strong></div>
+  </div>
+  <p class="prose">El agua líquida (4.18 J/g·°C) tiene casi el doble del calor específico del hielo (2.09 J/g·°C). <strong>Resiste más al cambio de temperatura.</strong> Por eso los océanos regulan el clima terrestre: absorben calor sin calentarse demasiado y lo liberan lentamente en invierno.</p>
+  <div class="voz"><div class="spk">La gota reflexiona…</div>
+    El hierro solo necesita 0.45 J/g·°C. El aceite, 1.67. Soy la que más "aguanta" el calor. El planeta me usa para no volverse loco de temperatura. Soy una memoria térmica viviente.</div>
+  <div class="ref">Si el calor específico del agua fuera tan bajo como el del hierro, ¿cómo sería el clima en la Tierra? ¿Por qué los organismos vivos están compuestos mayoritariamente de agua?</div>
+
+  <!-- ACTO IV -->
+  <hr class="dv"/>
+  <div class="sec">♨️ <div><span class="sub">Acto IV</span>La segunda barrera — vaporización</div></div>
+  <span class="badge">Cambio de fase · Vaporización · 100°C</span>
+  <div class="voz"><div class="spk">La gota habla…</div>
+    Llegué a 100°C y volví a detenerme. Otra vez el silencio del termómetro. Otra vez el calor entrando sin que yo me caliente. Pero esta vez rompo <em>todos</em> los puentes. Me separo completamente de mis vecinas. Necesito 2260 julios por gramo. Casi siete veces más que para fundirme. El precio de la libertad total.</div>
+  <div class="eq">
+    <div class="formula">Q = m · L<sub>v</sub></div>
+    <div class="enote">L<sub>v</sub>(agua) = 2260 J/g</div>
+    <div class="eresult">100 g a 100°C → Q = 100 × 2260 = <strong>226 000 J</strong> para vaporizarse completamente</div>
+  </div>
+  <p class="prose">La energía de vaporización representa el <strong>74% del calor total</strong> desde −20°C hasta vapor a 100°C. Por eso sudar es tan eficiente: cada gramo de sudor que se evapora lleva 2260 J de tu calor corporal.</p>
+  <div class="voz"><div class="spk">La gota reflexiona…</div>
+    Cuando sudas, no solo pierdes agua. Me llevas tu calor. Soy tu aire acondicionado personal. Sin ese mecanismo, el cuerpo humano no podría existir en días de verano.</div>
+  <div class="ref">Un ser humano libera hasta 700 W haciendo ejercicio. ¿Cuántos gramos de sudor por hora necesita evaporar para compensar ese calor? (1 W = 1 J/s).</div>
+
+  <!-- TABLA COMPLETA -->
+  <hr class="dv"/>
+  <div class="sec">📊 <div><span class="sub">Resumen</span>Mi vida completa en datos — 100 g de agua</div></div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Etapa</th><th>Proceso</th><th>Constante</th><th>Q (J)</th><th>Temperatura</th></tr></thead>
+      <tbody>
+        <tr><td>−20°C → 0°C</td><td>Calentamiento sólido</td><td>c = 2.09 J/g·°C</td><td class="hi">4 180</td><td>↑ Sube</td></tr>
+        <tr><td>0°C (fusión)</td><td><strong>Cambio de fase</strong></td><td>L<sub>f</sub> = 334 J/g</td><td class="hi">33 400</td><td class="flat">→ Constante ⚠️</td></tr>
+        <tr><td>0°C → 100°C</td><td>Calentamiento líquido</td><td>c = 4.18 J/g·°C</td><td class="hi">41 800</td><td>↑ Sube</td></tr>
+        <tr><td>100°C (vapor)</td><td><strong>Cambio de fase</strong></td><td>L<sub>v</sub> = 2260 J/g</td><td class="hi">226 000</td><td class="flat">→ Constante ⚠️</td></tr>
+        <tr><td colspan="3"><strong>TOTAL</strong></td><td class="hi"><strong>305 380 J</strong></td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GRÁFICO T vs Q -->
+  <div class="gcard">
+    <h3>Gráfico: Temperatura (°C) vs. Calor acumulado Q (J) — 100 g de agua</h3>
+    <svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+      <rect width="640" height="360" fill="#f4faff" rx="10"/>
+      <defs>
+        <marker id="ar1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#3a7ca5"/>
+        </marker>
+      </defs>
+      <line x1="60" y1="254" x2="585" y2="254" stroke="#dbeef7" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <line x1="60" y1="76"  x2="585" y2="76"  stroke="#dbeef7" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <line x1="60" y1="310" x2="600" y2="310" stroke="#3a7ca5" stroke-width="2" marker-end="url(#ar1)"/>
+      <line x1="60" y1="310" x2="60"  y2="30"  stroke="#3a7ca5" stroke-width="2" marker-end="url(#ar1)"/>
+      <text x="52" y="294" text-anchor="end" font-size="11" fill="#3a7ca5" font-family="sans-serif">−20</text>
+      <text x="52" y="258" text-anchor="end" font-size="11" fill="#3a7ca5" font-family="sans-serif">0</text>
+      <text x="52" y="80"  text-anchor="end" font-size="11" fill="#3a7ca5" font-family="sans-serif">100</text>
+      <text x="590" y="257" font-size="10" fill="#3a7ca5" font-family="sans-serif" font-weight="700">0°C</text>
+      <text x="590" y="79"  font-size="10" fill="#3a7ca5" font-family="sans-serif" font-weight="700">100°C</text>
+      <text x="60"  y="324" text-anchor="middle" font-size="9" fill="#6a8499" font-family="sans-serif">0</text>
+      <text x="67"  y="324" text-anchor="middle" font-size="9" fill="#6a8499" font-family="sans-serif">4k</text>
+      <text x="124" y="324" text-anchor="middle" font-size="9" fill="#6a8499" font-family="sans-serif">37.6k</text>
+      <text x="195" y="324" text-anchor="middle" font-size="9" fill="#6a8499" font-family="sans-serif">79.4k</text>
+      <text x="580" y="324" text-anchor="middle" font-size="9" fill="#6a8499" font-family="sans-serif">305k J</text>
+      <!-- Curve: solid from -20°C at x=60,y=290 to 0°C at x=67,y=254 -->
+      <line x1="60" y1="290" x2="67" y2="254" stroke="#3a7ca5" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="67" y1="254" x2="124" y2="254" stroke="#f5a623" stroke-width="5" stroke-linecap="round"/>
+      <line x1="124" y1="254" x2="195" y2="76" stroke="#3a7ca5" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="195" y1="76" x2="580" y2="76" stroke="#f5a623" stroke-width="5" stroke-linecap="round"/>
+      <line x1="580" y1="76" x2="600" y2="52" stroke="#6ecac0" stroke-width="3" stroke-dasharray="6,3" stroke-linecap="round"/>
+      <text x="60"  y="278" font-size="11" fill="#1b3a52" font-family="sans-serif" font-weight="700">Sólido</text>
+      <text x="68"  y="243" font-size="10" fill="#b8730a" font-family="sans-serif" font-weight="700">← Fusión (0°C) →</text>
+      <text x="134" y="176" font-size="11" fill="#1b3a52" font-family="sans-serif" font-weight="700">Líquido</text>
+      <text x="268" y="65"  font-size="10" fill="#b8730a" font-family="sans-serif" font-weight="700">← Vaporización (100°C) →</text>
+      <text x="580" y="48"  font-size="11" fill="#1a7a70" font-family="sans-serif" font-weight="700">Vapor</text>
+      <text x="68"  y="270" font-size="8.5" fill="#aaa" font-family="sans-serif" font-style="italic">T = cte.</text>
+      <text x="340" y="90"  font-size="8.5" fill="#aaa" font-family="sans-serif" font-style="italic">T = cte.</text>
+      <text x="330" y="344" text-anchor="middle" font-size="12" fill="#3a7ca5" font-family="sans-serif">Calor absorbido acumulado Q (J)</text>
+      <text x="18" y="180" text-anchor="middle" font-size="12" fill="#3a7ca5" font-family="sans-serif" transform="rotate(-90,18,180)">Temperatura (°C)</text>
+    </svg>
+  </div>
+
+  <div class="voz"><div class="spk">La gota, mirando su propio gráfico…</div>
+    ¿Ves esos tramos horizontales dorados? Ahí trabajo sin que nadie lo vea. El termómetro miente: parece que nada pasa. Pero dentro de mí, miles de millones de puentes moleculares se rompen uno a uno. Calor que no calienta. Energía que transforma sin anunciar. La naturaleza hace sus cambios más grandes en silencio.</div>
+  <div class="ref">El tramo de vaporización es mucho más largo que el de fusión. ¿Qué te dice eso sobre cuánta energía se necesita para separar moléculas de agua completamente?</div>
+
+  <!-- COMPORTAMIENTO ANÓMALO -->
+  <div class="anom">
+    <h2>❄️ El comportamiento anómalo del agua</h2>
+    <p class="prose" style="color:#1a3a36;">Normalmente, cuando algo se enfría se contrae: sus moléculas se juntan, su densidad aumenta. El agua hace lo contrario entre 0°C y 4°C.</p>
+    <div class="voz"><div class="spk">La gota explica su rareza…</div>
+      Al enfriarme de 4°C a 0°C, mis moléculas empiezan a organizarse en la red hexagonal del hielo antes de solidificarse del todo. Esa red ocupa <em>más espacio</em> que el líquido. Soy más espaciosa como sólido que como líquido: el hielo es <em>menos denso</em>. Por eso floto. Por eso los icebergs sobresalen del mar. Por eso los lagos no se congelan de abajo hacia arriba. Por eso existe la vida en los ríos en invierno. Mi anomalía no es un error: es un regalo.</div>
+    <div class="tbl" style="margin:.8rem 0;">
+      <table>
+        <thead><tr><th>T (°C)</th><th>Densidad (g/mL)</th><th>Observación</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0.99984</td><td>Punto de fusión</td></tr>
+          <tr><td>2</td><td>0.99994</td><td>↑ Sigue aumentando</td></tr>
+          <tr class="peak"><td><strong>4</strong></td><td><strong>1.00000</strong></td><td>🌟 Máxima densidad</td></tr>
+          <tr><td>10</td><td>0.99970</td><td>↓ Empieza a bajar</td></tr>
+          <tr><td>20</td><td>0.99821</td><td>↓</td></tr>
+          <tr><td>60</td><td>0.98324</td><td>↓</td></tr>
+          <tr><td>100</td><td>0.95840</td><td>Punto de ebullición</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Density graph -->
+    <div class="gcard" style="margin:.8rem 0;">
+      <h3>Densidad del agua en función de la temperatura (0°C – 100°C)</h3>
+      <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="220" fill="#f4faff" rx="10"/>
+        <defs>
+          <marker id="ar2" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L7,3 z" fill="#1a8a7a"/>
+          </marker>
+          <linearGradient id="af2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a8d8ea" stop-opacity=".3"/>
+            <stop offset="100%" stop-color="#a8d8ea" stop-opacity=".03"/>
+          </linearGradient>
+        </defs>
+        <line x1="62" y1="50" x2="555" y2="50" stroke="#dbeef7" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="62" y1="100" x2="555" y2="100" stroke="#dbeef7" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="62" y1="150" x2="555" y2="150" stroke="#dbeef7" stroke-width="1" stroke-dasharray="4,3"/>
+        <polygon points="62,108 82,44 112,46 162,51 262,104 362,138 462,176 555,194 555,194 62,194" fill="url(#af2)"/>
+        <polyline points="62,108 82,44 112,46 162,51 262,104 362,138 462,176 555,194"
+          fill="none" stroke="#1a8a7a" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="82" cy="44" r="5.5" fill="#f5a623" stroke="#fff" stroke-width="2"/>
+        <line x1="82" y1="44" x2="82" y2="194" stroke="#f5a623" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="85" y="38" font-size="9.5" fill="#b8730a" font-family="sans-serif" font-weight="700">Máx. densidad 1.0000 g/mL @ 4°C</text>
+        <text x="64" y="92" font-size="8.5" fill="#cc0044" font-family="sans-serif">↑ densidad ↑ al enfriar → ❗</text>
+        <line x1="62" y1="194" x2="565" y2="194" stroke="#1a8a7a" stroke-width="1.8" marker-end="url(#ar2)"/>
+        <line x1="62" y1="194" x2="62"  y2="22"  stroke="#1a8a7a" stroke-width="1.8" marker-end="url(#ar2)"/>
+        <text x="62"  y="207" text-anchor="middle" font-size="9" fill="#1a8a7a" font-family="sans-serif">0</text>
+        <text x="82"  y="207" text-anchor="middle" font-size="9" fill="#f5a623" font-family="sans-serif" font-weight="700">4</text>
+        <text x="112" y="207" text-anchor="middle" font-size="9" fill="#1a8a7a" font-family="sans-serif">10</text>
+        <text x="162" y="207" text-anchor="middle" font-size="9" fill="#1a8a7a" font-family="sans-serif">20</text>
+        <text x="262" y="207" text-anchor="middle" font-size="9" fill="#1a8a7a" font-family="sans-serif">40</text>
+        <text x="362" y="207" text-anchor="middle" font-size="9" fill="#1a8a7a" font-family="sans-serif">60</text>
+        <text x="462" y="207" text-anchor="middle" font-size="9" fill="#1a8a7a" font-family="sans-serif">80</text>
+        <text x="555" y="207" text-anchor="middle" font-size="9" fill="#1a8a7a" font-family="sans-serif">100</text>
+        <text x="55" y="47"  text-anchor="end" font-size="8" fill="#1a8a7a" font-family="sans-serif">1.0000</text>
+        <text x="55" y="105" text-anchor="end" font-size="8" fill="#1a8a7a" font-family="sans-serif">0.9820</text>
+        <text x="55" y="155" text-anchor="end" font-size="8" fill="#1a8a7a" font-family="sans-serif">0.9700</text>
+        <text x="310" y="218" text-anchor="middle" font-size="10" fill="#1a8a7a" font-family="sans-serif">Temperatura (°C)</text>
+        <text x="13" y="112" text-anchor="middle" font-size="10" fill="#1a8a7a" font-family="sans-serif" transform="rotate(-90,13,112)">Densidad (g/mL)</text>
+        <text x="310" y="16" text-anchor="middle" font-size="10" fill="#145a52" font-family="sans-serif" font-weight="700">Densidad del agua vs. Temperatura</text>
+      </svg>
+    </div>
+    <!-- LAKE -->
+    <div class="lake">
+      <h3>El lago en invierno — ¿por qué sobreviven los peces? (T° aire = −10°C)</h3>
+      <svg viewBox="0 0 600 295" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="72" fill="#b8d8f0"/>
+        <ellipse cx="110" cy="27" rx="46" ry="15" fill="#fff" opacity=".7"/>
+        <ellipse cx="143" cy="22" rx="30" ry="12" fill="#fff" opacity=".8"/>
+        <ellipse cx="390" cy="29" rx="40" ry="14" fill="#fff" opacity=".65"/>
+        <text x="300" y="19" text-anchor="middle" font-size="12" fill="#1b3a52" font-family="sans-serif" font-weight="700">(Temperatura aire) −10°C ❄️</text>
+        <path d="M15,72 Q15,278 72,288 Q300,308 528,288 Q585,278 585,72 Z" fill="#3a8fac"/>
+        <path d="M15,72 Q300,87 585,72 L585,105 Q300,120 15,105 Z" fill="#c8e8f5" opacity=".95"/>
+        <text x="300" y="93" text-anchor="middle" font-size="13" fill="#1b3a52" font-family="sans-serif" font-weight="700">Hielo · ρ = 0.917 g/mL (flota — menos denso)</text>
+        <path d="M16,105 Q300,120 584,105 L582,144 Q300,159 18,144 Z" fill="#5eadd0" opacity=".9"/>
+        <text x="300" y="130" text-anchor="middle" font-size="11" fill="#fff" font-family="sans-serif" font-weight="600">Agua a 0°C · ρ = 0.9998 g/mL</text>
+        <path d="M18,144 Q300,159 582,144 L576,232 Q300,252 24,232 Z" fill="#2176ae" opacity=".88"/>
+        <text x="148" y="196" text-anchor="middle" font-size="15" fill="#fff" font-family="sans-serif" font-weight="700">Agua</text>
+        <text x="148" y="214" text-anchor="middle" font-size="13" fill="#ddf" font-family="sans-serif">líquida</text>
+        <path d="M24,232 Q300,252 576,232 L568,280 Q300,298 32,280 Z" fill="#155e8a" opacity=".9"/>
+        <text x="300" y="258" text-anchor="middle" font-size="11" fill="#fff" font-family="sans-serif" font-weight="600">Agua a 4°C — más densa → se hunde al fondo · ρ = 1.0000 g/mL</text>
+        <!-- FISH -->
+        <ellipse cx="348" cy="190" rx="36" ry="20" fill="#f5a05a"/>
+        <polygon points="384,190 404,175 404,205" fill="#e08040"/>
+        <circle cx="330" cy="186" r="4.5" fill="#fff"/>
+        <circle cx="330" cy="186" r="2.2" fill="#222"/>
+        <path d="M316,193 Q319,198 324,193" fill="none" stroke="#c06020" stroke-width="1.5"/>
+        <path d="M336,171 Q348,159 361,171" fill="#e08040"/>
+        <path d="M340,209 Q350,220 362,209" fill="#e08040"/>
+        <rect x="368" y="144" width="185" height="36" rx="9" fill="#fff" opacity=".93"/>
+        <polygon points="378,180 388,180 383,192" fill="#fff" opacity=".93"/>
+        <text x="460" y="160" text-anchor="middle" font-size="9.5" fill="#1b3a52" font-family="sans-serif" font-weight="600">¡El hielo que flota me protege!</text>
+        <text x="460" y="174" text-anchor="middle" font-size="9.5" fill="#1b3a52" font-family="sans-serif">Aquí abajo estoy a 4°C 🐟</text>
+      </svg>
+    </div>
+    <div class="fact"><strong>Dos fuerzas en competencia:</strong> Al enfriarse, las moléculas se acercan (↑ densidad). Pero bajo 4°C, forman la red hexagonal del hielo (↑ volumen → ↓ densidad). El máximo ocurre exactamente en el punto de equilibrio: <strong>4°C</strong>.</div>
+    <div class="fact"><strong>Consecuencia para el clima:</strong> Los océanos almacenan calor en sus capas profundas, regulando la temperatura del planeta. Sin esta anomalía, la Tierra sería radicalmente diferente.</div>
+    <div class="ref">Si el hielo fuera más denso que el agua líquida, se hundiría al fondo. ¿Qué le pasaría a un lago en invierno? ¿Podrían sobrevivir peces y plantas?</div>
+  </div>
+
+  <!-- 6 PROBLEMAS -->
+  <div class="probs">
+    <h2>🧮 6 Problemas para pensar y calcular</h2>
+    <div class="prob"><div class="pn">1</div><div>¿Cuánto calor se necesita para llevar 250 g de hielo desde −15°C hasta 0°C?<div class="ph">Dato: c<sub>hielo</sub> = 2.09 J/g·°C. ¿Ese calor cambia la estructura del hielo o solo su temperatura?</div></div></div>
+    <div class="prob"><div class="pn">2</div><div>Un bloque de 80 g de hielo a 0°C se derrite completamente. ¿Cuánto calor absorbió? ¿Por qué el termómetro no cambia durante ese proceso?<div class="ph">Dato: L<sub>f</sub> = 334 J/g. El calor latente no calienta: transforma.</div></div></div>
+    <div class="prob"><div class="pn">3</div><div>Calcula el calor total para transformar 100 g de hielo a −20°C en vapor a 100°C. Muestra cada etapa y el porcentaje que representa del total.<div class="ph">Usa todos los valores de c y L de la tabla. ¿Qué etapa domina el proceso?</div></div></div>
+    <div class="prob"><div class="pn">4</div><div>El cuerpo humano libera aproximadamente 80 W en reposo (1 W = 1 J/s). ¿Cuántos gramos de sudor por hora debe evaporar para compensar ese calor?<div class="ph">Dato: L<sub>v</sub> = 2260 J/g. Convierte watts a J/hora primero.</div></div></div>
+    <div class="prob"><div class="pn">5</div><div>Tienes 200 g de agua a 25°C. La calientas hasta vaporizarla completamente. ¿Cuánta energía necesitas? Compara con el calor solo para calentarla de 25°C a 100°C sin vaporizar.<div class="ph">c<sub>agua</sub> = 4.18 J/g·°C, L<sub>v</sub> = 2260 J/g.</div></div></div>
+    <div class="prob"><div class="pn">6</div><div>El agua alcanza su máxima densidad a 4°C. Explica con tus propias palabras qué ocurriría con la vida acuática en un lago si el hielo fuera más denso que el agua líquida. ¿Conectas esto con algún fenómeno climático o biológico que conozcas?<div class="ph">No hay fórmula: es una pregunta de comprensión conceptual y reflexión.</div></div></div>
+  </div>
+
+  <!-- FINAL -->
+  <div class="voz"><div class="spk">La gota, ya vapor, en su último monólogo…</div>
+    No morí. Me transformé. Trescientos cinco mil julios después soy invisible, libre, parte del aire que respiras. Los físicos llaman a esto entropía máxima. Yo lo llamo existir de otra forma. Si algún día te preguntas a dónde va la energía cuando el hielo se derrite y el agua se evapora, recuerda esta historia: va a romper lazos, a liberar moléculas, a transformar orden en movimiento. Va hacia la libertad.</div>
+
+  <div class="final">
+    <h3>Lección esencial</h3>
+    <p>La energía no siempre hace lo que el termómetro nos cuenta. A veces trabaja en silencio, reorganizando la materia desde adentro. Los cambios de fase, el calor latente y el comportamiento anómalo del agua son recordatorios de que la naturaleza guarda sus transformaciones más profundas donde menos se espera: en los tramos planos del gráfico, en el hielo que flota, en la gota que desaparece.</p>
+  </div>
+
+</div><!-- /card -->
+<footer>Divulgación científica · Termodinámica narrativa · 2026</footer>
+</div>
+</body>
+</html>
